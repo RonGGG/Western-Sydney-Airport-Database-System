@@ -1,0 +1,35 @@
+DROP FUNCTION IF EXISTS ADDTEST(TESTDATE DATE, 
+								   REGNO_IN VARCHAR, 
+								   EVENT_DESC VARCHAR, 
+								   TECHNICIAN_UNAME VARCHAR, 
+								   TESTENGINEER_UNAME VARCHAR);
+CREATE OR REPLACE FUNCTION ADDTEST(TESTDATE DATE, 
+								   REGNO_IN VARCHAR, 
+								   EVENT_DESC VARCHAR, 
+								   TECHNICIAN_UNAME VARCHAR, 
+								   TESTENGINEER_UNAME VARCHAR)
+RETURNS integer AS $$
+DECLARE
+	usid_technician INTEGER;
+	usid_testengineer INTEGER;
+	test_statuscode VARCHAR;
+	reg_no VARCHAR;
+BEGIN
+	SELECT TE.regno, TS.teststatuscode, E_Tech.userid, E_Eng.userid
+	INTO reg_no, test_statuscode, usid_technician, usid_testengineer
+	FROM Employee E_Tech, Employee E_Eng, Teststatus TS, Testevent TE
+	WHERE E_Tech.username=TECHNICIAN_UNAME
+	AND E_Tech.role='Technician'
+	AND E_Eng.username=TESTENGINEER_UNAME
+	AND E_Eng.role='TestEngineer'
+	AND TS.teststatusdesc=EVENT_DESC
+	AND TE.regno=REGNO_IN;
+	
+	IF NOT FOUND THEN
+	RETURN 0;
+	END IF;
+
+	INSERT INTO TESTEVENT VALUES (default,TESTDATE, reg_no, test_statuscode, usid_technician, usid_testengineer);
+	RETURN 1;
+END;
+$$ LANGUAGE plpgSQL;

@@ -1,0 +1,25 @@
+/*Login Procedure*/
+DROP FUNCTION IF EXISTS login_check(
+	IN username_in VARCHAR, 
+	IN password_in VARCHAR, 
+	OUT userid_out INTEGER,
+	OUT username_out VARCHAR,
+	OUT name_out VARCHAR,
+	OUT password_out VARCHAR,
+	OUT email_out VARCHAR,
+	OUT role_out VARCHAR);
+CREATE OR REPLACE FUNCTION login_check (
+	IN username_in VARCHAR, 
+	IN password_in VARCHAR, 
+	OUT userid_out INTEGER,
+	OUT username_out VARCHAR,
+	OUT name_out VARCHAR,
+	OUT password_out VARCHAR,
+	OUT email_out VARCHAR,
+	OUT role_out VARCHAR) AS $$
+BEGIN
+SELECT userid,username,name,password,email,role 
+INTO userid_out,username_out,name_out,password_out,email_out,role_out
+FROM Employee 
+WHERE username=username_in AND password=password_in;
+END;$$ LANGUAGE plpgsql;

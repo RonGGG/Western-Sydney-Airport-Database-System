@@ -1,0 +1,33 @@
+{% include 'top.html' %}
+
+<div class="content">
+    <div class="container">
+        <h1 class="title" align="center">New Test</h1>
+
+        <form class="newbooking pure-form pure-form-aligned" method="POST" action="{{url_for('new_event')}}">
+            <div class="pure-control-group">
+                <label for="test_date">Test Date:</label>
+                <input type="date" name="test_date" size="25" autofocus required>
+            </div>
+			<div class="pure-control-group">
+                <label for="regno">Aircraft Reg #:</label>
+                <input type="text" name="regno" size="25" required>
+            </div>
+            <div class="pure-control-group">
+                <label for="status">Status:</label>
+                <input type="text" name="status" size="25" required>
+            </div>
+            <div class="pure-control-group">
+                <label for="technician">Technician:</label>
+                <input type="text" name="technician" size="25">
+            </div>
+            <div class="pure-control-group">
+                <label for="testengineer">Test Engineer:</label>
+                <input type="text" name="testengineer" size="25">
+            </div>
+            <button type="submit" class="flat">Add Test</button>
+        </form>
+    </div>
+</div>
+
+{% include 'bottom.html' %}
